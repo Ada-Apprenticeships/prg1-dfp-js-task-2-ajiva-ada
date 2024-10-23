@@ -1,10 +1,5 @@
 const fs = require('fs');
 
-// function deleteExistingOutputFile() {
-//   if (fs.existsSync(outputFile)) {
-//     fs.unlinkSync(outputFile);
-//   }
-// }
 function parseFile (indata, outdata, delimiter = ';') {
   // Checks if input file exists #T05
   if (!fs.existsSync(indata)) {
@@ -14,15 +9,12 @@ function parseFile (indata, outdata, delimiter = ';') {
   const data = fs.readFileSync(indata, 'utf-8');
   const lines = data.split(/\n/);
 
-  //const review = [];
-  //const sentiment = [];
-
   // avoid repeatdely appending by clearing output file first
   if (fs.existsSync(outdata)) {
     fs.unlinkSync(outdata);
   }
 
-  count = 0;
+  let count = 0;
 
   const correctLines = lines.slice(1); // remove first line 'header' to correct count
 
@@ -33,14 +25,12 @@ function parseFile (indata, outdata, delimiter = ';') {
     const review = elements[0].trim().slice(0, 20); // trim to first 20 characters
     const sentiment = elements[1].trim()
 
-    let newData = `${sentiment};${review}\n`
+    const newData = `${sentiment}${delimiter}${review}\n`
 
     fs.appendFileSync(outdata, newData) // writing to output file
     count++ // record count
-    //return `${sentiment}${delimiter}${review}`;
-  })
+  });
   return count; // no. records #T02
-  //.filter(line => line !== ''); // filtering white space
   }
 
 // Leave this code here for the automated tests
