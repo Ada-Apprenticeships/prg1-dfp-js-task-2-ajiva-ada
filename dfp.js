@@ -7,7 +7,10 @@ const fs = require('fs');
 // }
 
 function parseFile (indata, outdata, delimiter = ';') {
-  
+  // Checks if input file exists #T05
+  if (!fs.existsSync(indata)) {
+    return -1;
+  }
   let count = 0;
   const data = fs.readFileSync(indata, 'utf-8');
   const lines = data.split(/\n/);
